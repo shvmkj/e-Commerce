@@ -14,12 +14,7 @@ const App = ()=>{
       <Route path='/' exact>
         <HomeScreen/>
       </Route>
-      <Route path='/page/:pageNumber' exact>
-        <HomeScreen/>
-      </Route>
-      <Route path='/product/:id' >
-        <ProductScreen  />
-      </Route>
+      <Route path='/product/:id' component={ProductScreen} />
     </Container>
   </main>
   <Footer/>

@@ -1,30 +1,24 @@
 import React,{useState,useEffect} from 'react'
 import { Row,Col } from 'react-bootstrap'
-import { useLocation } from 'react-router-dom'
+import {useDispatch,useSelector} from 'react-redux'
 import Product from '../components/Product'
-import Paginate from '../components/Paginate'
+import { listProducts } from '../actions/productAction'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 const HomeScreen = () => {
-  const [ products,setProducts] = useState([])
-  const [ pages,setPages] = useState([])
-  const location = useLocation()
-  const pageNumber = location.pathname.split('/')[2] || 1
-  console.log(pageNumber)
+  const dispatch = useDispatch()
+  const productList = useSelector(state=>state.productList)
+  const {loading,products,error} = productList
   useEffect(()=>{
-    fetch(`/api/products?pageNumber=${pageNumber}`,{
-      method:'GET'
-    }).then(res=>res.json())
-    .then(prod=>{
-      console.log(prod['pages'])
-      setProducts(prod['products'])
-      setPages(prod['pages'])
-    })
-  },[pageNumber])
+    dispatch(listProducts())  
+  },[dispatch])
   return (
     <>
       <h1>
         Latest Products
       </h1>
-        <Row>
+      {loading?<Loader/>:error?<Message variant='danger'> {error}</Message>:
+        (<Row>
           {products.map((product)=>(
             <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
               
@@ -33,8 +27,9 @@ const HomeScreen = () => {
             </Col>
           ))
           }
-        </Row>
-        <Paginate pages={pages} page={pageNumber}> </Paginate>
+        </Row>)
+      }
+        
     </>
   )
 }
