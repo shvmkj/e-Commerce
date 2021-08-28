@@ -1,8 +1,24 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { Row,Col } from 'react-bootstrap'
-import products from '../products'
+import { useLocation } from 'react-router-dom'
 import Product from '../components/Product'
+import Paginate from '../components/Paginate'
 const HomeScreen = () => {
+  const [ products,setProducts] = useState([])
+  const [ pages,setPages] = useState([])
+  const location = useLocation()
+  const pageNumber = location.pathname.split('/')[2] || 1
+  console.log(pageNumber)
+  useEffect(()=>{
+    fetch(`/api/products?pageNumber=${pageNumber}`,{
+      method:'GET'
+    }).then(res=>res.json())
+    .then(prod=>{
+      console.log(prod['pages'])
+      setProducts(prod['products'])
+      setPages(prod['pages'])
+    })
+  },[pageNumber])
   return (
     <>
       <h1>
@@ -15,8 +31,10 @@ const HomeScreen = () => {
                 <Product product={product} />
               
             </Col>
-          ))}
+          ))
+          }
         </Row>
+        <Paginate pages={pages} page={pageNumber}> </Paginate>
     </>
   )
 }
