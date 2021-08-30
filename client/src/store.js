@@ -3,12 +3,13 @@ import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import { productListReducer,productDetailsReducer } from './reducers/productReducer'
 import { cartReducer } from './reducers/cartReducers'
-import { userDetailsReducer, userLoginReducer, userRegisterReducer, userUpdateProfileReducer } from './reducers/userReducers'
+import { userDeleteReducer, userDetailsReducer, userListReducer, userLoginReducer, userRegisterReducer, userUpdateProfileReducer } from './reducers/userReducers'
 import {  orderListMyReducer, orderCreateReducer, orderDetailsReducer, orderPayReducer } from './reducers/orderReducers'
 const reducer = combineReducers({
   productList:productListReducer,
   productDetails:productDetailsReducer,
   cart:cartReducer,
+  userList : userListReducer,
   userLogin:userLoginReducer,
   userRegister:userRegisterReducer,
   userDetails :userDetailsReducer,
@@ -16,7 +17,8 @@ const reducer = combineReducers({
   orderCreate : orderCreateReducer,
   orderDetails : orderDetailsReducer,
   orderPay : orderPayReducer,
-  listMyOrder : orderListMyReducer
+  listMyOrder : orderListMyReducer,
+  userDelete : userDeleteReducer
 })
 const cartItemsFromStorage = localStorage.getItem('cartItems')?JSON.parse(localStorage.getItem('cartItems')):[]
 const userInfoFromStorage = localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')):null

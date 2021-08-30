@@ -1,5 +1,5 @@
-import React,{useState,useEffect} from 'react'
-import { Form, Button, Row ,Col,ListGroup,Image,Card} from 'react-bootstrap'
+import React,{useEffect} from 'react'
+import { Button, Row ,Col,ListGroup,Image,Card} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import { Link } from 'react-router-dom'
 import Message from '../components/Message'
@@ -22,7 +22,7 @@ const PlaceOrderScreen = ({history}) => {
     if(!cart.paymentMethod){
       history.push('/payment')
     }
-  },[cart])
+  },[cart,history])
   useEffect(()=>{
     if(success){history.push(`/order/${order._id}`)}
     //eslint-disable-next-line

@@ -6,7 +6,7 @@ import { logout } from '../actions/userAction'
 const Header = () => {
   const dispach = useDispatch()
   const userLogin = useSelector(state=>state.userLogin)
-  const {loading,error,userInfo} = userLogin
+  const {userInfo} = userLogin
   const logoutHandler = ()=>{
     dispach(logout())
   }
@@ -26,7 +26,8 @@ const Header = () => {
           Cart
           </Nav.Link>
         </LinkContainer>
-        {userInfo? <NavDropdown title={userInfo.name} id='username'>
+        {userInfo?
+         <NavDropdown title={userInfo.name} id='username'>
           <LinkContainer to='/profile'>
             <NavDropdown.Item>
               Profile
@@ -45,6 +46,23 @@ const Header = () => {
           </Nav.Link>
           </LinkContainer>
         }
+        {userInfo&&userInfo.isAdmin && (
+         <NavDropdown title='Admin' id='adminmenu'>
+          <LinkContainer to='/admin/userlist'>
+            <NavDropdown.Item>Users</NavDropdown.Item>
+          </LinkContainer>
+          <LinkContainer  to='/admin/productlist'>
+            <NavDropdown.Item>
+              Products
+            </NavDropdown.Item>
+          </LinkContainer>
+          <LinkContainer  to='/admin/orderlist'>
+            <NavDropdown.Item>
+              Orders
+            </NavDropdown.Item>
+          </LinkContainer>
+        </NavDropdown> 
+        )}
       </Nav>
     </Navbar.Collapse>
     </Container>
