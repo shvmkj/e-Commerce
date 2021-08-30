@@ -1,5 +1,10 @@
-import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS } from "../constants/userConstants"
+import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST,
+    USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL,
+  USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS,USER_DETAILS_RESET,
+ } from "../constants/userConstants"
+ import { ORDER_MY_LIST_RESET } from "../constants/orderConstants"
 import axios from "axios"
+import { CART_REMOVE_PAYMENT_METHOD, CART_REMOVE_SHIPPING_ADDRESS } from "../constants/cartConstants"
 export const login = (email,password)=>async(dispatch)=>{
   try{
       dispatch({
@@ -25,10 +30,17 @@ export const login = (email,password)=>async(dispatch)=>{
 } 
 export const logout = ()=>async(dispatch)=>{
   localStorage.removeItem('userInfo')
+  localStorage.removeItem('shippingAddress')
+  localStorage.removeItem('paymentMethod')
+  localStorage.removeItem('__paypal_storage__')
+  localStorage.removeItem('__belter_experiment_storage__')
   
-  dispatch({
-    type: USER_LOGOUT
-  })
+  dispatch({type: USER_LOGOUT})
+  dispatch({type: USER_DETAILS_RESET})
+  dispatch({type: ORDER_MY_LIST_RESET})
+  dispatch({type: USER_DETAILS_RESET})
+  dispatch({type: CART_REMOVE_SHIPPING_ADDRESS})
+  dispatch({type: CART_REMOVE_PAYMENT_METHOD})
 }
 export const register = (name,email,password)=>async(dispatch)=>{
   try{
