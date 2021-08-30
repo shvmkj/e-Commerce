@@ -1,5 +1,4 @@
 import express from 'express'
-import asyncHandler from 'express-async-handler'
 import { authUser, getUserProfile, registerUser, updateUserProfile } from '../controllers/userControllers.js'
 import { protect } from '../middleware/authMiddleware.js'
 const router = express.Router()

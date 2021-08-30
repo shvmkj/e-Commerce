@@ -24,7 +24,7 @@ const ProductScreen = ({history,match}) => {
       {loading?<Loader/>:error?<Message/>:
       (
       <Row>
-        <Col md={6}>
+        <Col md={5}>
           <Image src={product.image} alt={product._id} fluid></Image>
         </Col>
         <Col md={3}>
@@ -45,7 +45,7 @@ const ProductScreen = ({history,match}) => {
                 </ListGroup.Item>
             </ListGroup>
         </Col>
-        <Col md={3}>
+        <Col md={4}>
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
@@ -64,7 +64,7 @@ const ProductScreen = ({history,match}) => {
                   Status: 
                   </Col>
                   <Col>
-                    <strong>{product.countInStock>0?"In Stock":"Out In Stock"}</strong>
+                    <strong>{product.countInStock>0?"In Stock":"Out Of Stock"}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -73,8 +73,7 @@ const ProductScreen = ({history,match}) => {
                   product.countInStock>0 && (
                   <ListGroup.Item>
                     <Row>
-                      <Col>Qty
-                      </Col>
+                      <Col>Qty</Col>
                       <Col>
                       <Form.Control as='select' value={qty} onChange={(e)=>setQty(e.target.value)}>
                         {[...Array(product.countInStock).keys()].map((x) =>(

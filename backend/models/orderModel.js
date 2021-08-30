@@ -1,5 +1,12 @@
 import mongoose from 'mongoose'
 const ObjectId = mongoose.Types.ObjectId
+const orderItems = mongoose.Schema({
+  name:    {type: String, required:true},
+  qty :    {type: Number, required:true},
+  image :  {type: String, required:true},
+  price :  {type: Number, required:true},
+  product : {type:ObjectId,ref : 'Product',required:true}
+})
 const orderSchema = mongoose.Schema({
   user : {
     type: ObjectId,
@@ -7,10 +14,10 @@ const orderSchema = mongoose.Schema({
     ref:'User'
   },
   orderItems: [{
-    name:    {type: String, required:true, unique:true},
-    qty :    {type: Number, required:true, unique:true},
-    image :  {type: String, required:true, unique:true},
-    price :  {type: Number, required:true, unique:true},
+    name:    {type: String, required:true,unique:false},
+    qty :    {type: Number, required:true,unique:false},
+    image :  {type: String, required:true, unique:false},
+    price :  {type: Number, required:true,unique:false},
     product : {type:ObjectId,ref : 'Product',required:true}
   }
 ],
@@ -69,6 +76,11 @@ const orderSchema = mongoose.Schema({
   deliveredAt :{
       type:Date
   },
+  itemsPrice :{
+    required:true,
+    default : 0.00,
+    type:Number
+  }
 },{timestamps : true})
 
 const Order = mongoose.model('Order',orderSchema)
