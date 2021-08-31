@@ -92,22 +92,39 @@ const updateUserProfile = asyncHandler(async (req,res)=>{
   //@access admin
   const getUsers = asyncHandler(async (req,res)=>{
     try{
-    const users =  await User.find()
+      const users =  await User.find()
     res.json(users)
-    }catch(error){
-      res.status(401)
-      throw new Error(error)
-    }
-  })
+  }catch(error){
+    res.status(401)
+    throw new Error(error)
+  }
+})
   //delete a user
   //@route DELETE /api/users/:id
   //@access admin
-const deleteUser = asyncHandler(async (req,res)=>{
+  const deleteUser = asyncHandler(async (req,res)=>{
+    try{
+      const user =  await User.findById({_id:req.params.id})
+      if(user){
+        await user.remove()
+        res.json({message:"User removed"})
+      }else{
+        res.status(404)
+        throw new Error('User not Found')
+    }
+  }catch(error){
+    res.status(401)
+    throw new Error (error)
+  }
+})
+//get a user by ID
+//@route GET /api/users/:id
+//@access admin
+const getUserById = asyncHandler(async (req,res)=>{
   try{
-    const user =  await User.findById({_id:req.params.id})
+    const user =  await User.findById({_id:req.params.id}).select('-password')
     if(user){
-      await user.remove()
-      res.json({message:"User removed"})
+      res.json(user)
     }else{
       res.status(404)
       throw new Error('User not Found')
@@ -116,5 +133,27 @@ const deleteUser = asyncHandler(async (req,res)=>{
       res.status(401)
       throw new Error (error)
     }
+  })
+//update User
+//@route PUT /api/users/:id
+//@access admin
+const updateUser = asyncHandler(async (req,res)=>{
+    const user =  await User.findById({_id:req.params.id})
+    if(user){
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email
+        user.isAdmin = req.body.isAdmin
+      
+      const updatedUser = await user.save()
+        return res.json({
+          _id : updatedUser._id,
+        name: updatedUser.name,
+        email : updatedUser.email,
+        isAdmin : updatedUser.isAdmin,
+        })
+    }else{
+  res.status(404)
+  throw new Error("user not found")
+  }
 })
-  export {authUser,getUserProfile,registerUser,updateUserProfile,getUsers,deleteUser}
+  export {authUser,getUserProfile,registerUser,updateUserProfile,getUsers,deleteUser,updateUser,getUserById}
