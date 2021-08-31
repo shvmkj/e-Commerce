@@ -102,7 +102,7 @@ const ProfileScreen = ({location,history}) => {
           </thead>
           <tbody>
            
-           {(Object.keys(orders).length && orders.map(order=>(
+           {(orders.map(order=>(
              <tr key={order._id}>
                <td>{order._id}</td>
                <td>{order.createdAt.substring(0,10)}</td>
@@ -119,7 +119,7 @@ const ProfileScreen = ({location,history}) => {
                </LinkContainer>
                </td>
              </tr>
-           ))) || <Message variant='danger'> No Order</Message>}
+           )))}
           
           </tbody>
         </Table>
