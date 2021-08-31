@@ -40,7 +40,7 @@ const getOrderById = asyncHandler(async (req,res)=>{
   }
 })
 //@desc update order to paid
-//@route GET /api/orders/:id/pay
+//@route put /api/orders/:id/pay
 //@access private
 const updateOrderToPaid = asyncHandler(async (req,res)=>{
   try{
@@ -67,6 +67,28 @@ const updateOrderToPaid = asyncHandler(async (req,res)=>{
     throw new Error (error)
   }
 })
+//@desc update order to delivered
+//@route put /api/orders/:id/deliver
+//@access private
+const updateOrderToDeliver = asyncHandler(async (req,res)=>{
+  try{
+  const order = await Order.findById({_id:req.params.id})
+  console.log("id->",req.body.id)
+  console.log("status->",req.body.status)
+  console.log("email->",req.body.email_address)
+  if(order){
+    order.isDelivered = true
+    order.deliveredAt = Date.now()
+    const updatedOrder = await order.save();
+    res.json(updatedOrder)
+  }else{
+    res.status(404)
+    throw new Error ('Order Not Found')
+  }}catch(error){
+    res.status(404)
+    throw new Error (error)
+  }
+})
 //@desc get logged in users orders
 //@route GET /api/orders/myorders
 //@access private
@@ -79,6 +101,21 @@ const getMyOrders = asyncHandler(async (req,res)=>{
     throw new Error (error)
   }
 })
+//@desc get all orders
+//@route GET /api/orders/
+//@access private/admin
+const getAllOrders = asyncHandler(async (req,res)=>{
+  try{
+  const orders = await Order.find({}).populate('user','id name')
+  
+  res.json(orders)
+}catch(error){
+    res.status(404)
+    throw new Error (error)
+  }
+})
+
+
 export {
-  addOrders,getOrderById,updateOrderToPaid,getMyOrders
+  addOrders,getOrderById,updateOrderToPaid,getMyOrders,getAllOrders,updateOrderToDeliver
 }

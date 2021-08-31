@@ -1,5 +1,11 @@
 import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, 
+  ORDER_DELIVER_FAIL, 
+  ORDER_DELIVER_REQUEST, 
+  ORDER_DELIVER_SUCCESS, 
   ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, 
+  ORDER_GET_FAIL, 
+  ORDER_GET_REQUEST, 
+  ORDER_GET_SUCCESS, 
   ORDER_MY_LIST_FAIL, ORDER_MY_LIST_REQUEST, ORDER_MY_LIST_SUCCESS,
   ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS } from "../constants/orderConstants";
 import axios from "axios";
@@ -98,6 +104,56 @@ export const listMyOrders = ()=>async(dispatch,getState)=>{
   }catch(error){ 
     dispatch({
       type : ORDER_MY_LIST_FAIL,
+      success:false,
+      payload:error.response && error.response.data.message ? error.response.data.message : error.message
+    })
+  }
+} 
+export const listAllOrders = ()=>async(dispatch,getState)=>{
+  try{
+    dispatch({
+      type: ORDER_GET_REQUEST
+    })
+    const {userLogin : {userInfo}} = getState()
+    const config = {
+      headers :{
+        Authorization : `Bearer ${userInfo.token}`
+      }
+    }
+    const {data} = await axios.get(`/api/orders/`,config)
+    console.log(data)
+    dispatch({
+      type:ORDER_GET_SUCCESS,
+      payload : data,success:true
+    })
+  }catch(error){ 
+    dispatch({
+      type : ORDER_GET_FAIL,
+      success:false,
+      payload:error.response && error.response.data.message ? error.response.data.message : error.message
+    })
+  }
+} 
+export const orderDeliver = (order)=>async(dispatch,getState)=>{
+  try{
+    dispatch({
+      type: ORDER_DELIVER_REQUEST
+    })
+    const {userLogin : {userInfo}} = getState()
+    const config = {
+      headers :{
+        Authorization : `Bearer ${userInfo.token}`
+      }
+    }
+    const {data} = await axios.put(`/api/orders/${order._id}/deliver`,{},config)
+    console.log(data)
+    dispatch({
+      type:ORDER_DELIVER_SUCCESS,
+      success:true
+    })
+  }catch(error){ 
+    dispatch({
+      type : ORDER_DELIVER_FAIL,
       success:false,
       payload:error.response && error.response.data.message ? error.response.data.message : error.message
     })
