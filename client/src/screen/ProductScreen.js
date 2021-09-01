@@ -7,6 +7,7 @@ import { listProductsDetails,createProductReview } from '../actions/productActio
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstant'
+import Meta from '../components/Meta'
 const ProductScreen = ({history,match}) => {
   console.log(match)
   const[qty,setQty] = useState(1)
@@ -46,6 +47,7 @@ const ProductScreen = ({history,match}) => {
       {loading?<Loader/>:error?<Message/>:
       (
       <>
+      <Meta title={product.name} ></Meta>
       <Row>
         <Col md={5}>
           <Image src={product.image} alt={product._id} fluid></Image>
