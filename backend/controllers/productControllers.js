@@ -135,6 +135,18 @@ const createProductReview = asyncHandler(async (req,res)=>{
   throw new Error(error)
 }
 })
+//@desc Get top rated products
+//@route GET /api/products/top
+//@access public
+const getTopProducts = asyncHandler(async (req,res)=>{
+  try{
+  const products = await Product.find({}).sort({rating:-1}).limit(3)
+  res.json(products)
+  }catch(error){
+  res.status(404)
+  throw new Error(error)
+}
+})
 
 export {
   getProductById,
@@ -142,5 +154,6 @@ export {
   deleteProduct,
   updateProduct,
   createProduct,
-  createProductReview
+  createProductReview,
+  getTopProducts
 }

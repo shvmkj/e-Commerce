@@ -6,6 +6,7 @@ import Paginate from '../components/Paginate'
 import { listProducts } from '../actions/productAction'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import ProductCarousel from '../components/ProductCarousel'
 const HomeScreen = ({match}) => {
   const keyword = match.params.keyword
   const pageNumber = match.params.pageNumber || 1
@@ -17,6 +18,7 @@ const HomeScreen = ({match}) => {
   },[dispatch,keyword,pageNumber])
   return (
     <>
+    {!keyword&&<ProductCarousel></ProductCarousel>}
       <h1>
         Latest Products
       </h1>
