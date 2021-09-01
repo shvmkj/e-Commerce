@@ -24,9 +24,10 @@ const App = ()=>{
   <Header/>
   <main className='py-3'>
     <Container>
-      <Route path='/' exact>
-        <HomeScreen/>
-      </Route>
+      <Route path='/' component={HomeScreen} exact ></Route>
+      <Route path='/page/:pageNumber' component={HomeScreen} exact ></Route>
+      <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact ></Route>
+      <Route path='/search/:keyword' component={HomeScreen} exact></Route>
       <Route path='/product/:id' component={ProductScreen} />
       <Route path='/register' component={RegisterScreen} exact/>
       <Route path='/cart/:id?' exact component={CartScreen} />
@@ -39,8 +40,10 @@ const App = ()=>{
       <Route path='/admin/userlist' exact component={UserListScreen} />
       <Route path='/admin/user/:id/edit' exact component={UserEditScreen} />
       <Route path='/admin/productlist/' exact component={ProductListScreen}/>
+      <Route path='/admin/productlist/page/:pageNumber' exact component={ProductListScreen}/>
       <Route path='/admin/orderlist/' exact component={OrderListScreen}/>
       <Route path='/admin/product/:id/edit' exact component={ProductEditScreen} />
+
     </Container>
   </main>
   <Footer/>

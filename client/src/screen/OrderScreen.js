@@ -49,7 +49,7 @@ const OrderScreen = ({match,history}) => {
     }}else{
       history.push('/')
     }
-  },[dispatch,orderId,successPay,order,successDeliver,userInfo,order,history])
+  },[dispatch,orderId,successPay,order,successDeliver,userInfo,history])
   const onSuccessPaymentHandler = (paymentResult)=>{
     console.log(paymentResult)
     dispatch(payOrder(orderId,paymentResult))

@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from 'react'
 import {Link} from 'react-router-dom'
-import { Row,Col,Image,ListGroup,Card,Button, Form, FormGroup } from 'react-bootstrap'
+import { Row,Col,Image,ListGroup,Card,Button, Form} from 'react-bootstrap'
 import Rating  from '../components/Rating'
 import { useDispatch,useSelector } from 'react-redux'
 import { listProductsDetails,createProductReview } from '../actions/productAction'
@@ -20,6 +20,7 @@ const ProductScreen = ({history,match}) => {
   const productCreateReview = useSelector(state=>state.productReviewCreate)
   const{loading:loadingProductCreateReview,success:successProductReview,error:errorCreateReview} = productCreateReview
     useEffect(()=>{
+      // eslint-disable-next-line
       if(errorCreateReview){
         dispatch({type:PRODUCT_CREATE_REVIEW_RESET})
       }
@@ -144,6 +145,7 @@ const ProductScreen = ({history,match}) => {
                       <option value='5'>5-Excellent</option>
                     </Form.Control>
                     </Form.Group>
+                    {loadingProductCreateReview&&<Loader/>}
                     <Form.Group controlId='comment'>
                       <Form.Label>Comment</Form.Label>
                       <Form.Control as='textarea' row='3' value={comment} onChange={e=>setComment(e.target.value)}></Form.Control>

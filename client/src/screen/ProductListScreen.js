@@ -2,14 +2,16 @@ import React,{useEffect} from 'react'
 import {LinkContainer} from 'react-router-bootstrap'
 import { Button, Row,Col, Table} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
+import Paginate from '../components/Paginate'
 import Message from '../components/Message'
 import Loader from '../components/Loader' 
 import { listProducts,deleteProduct,createProduct } from '../actions/productAction'
 import {PRODUCT_CREATE_RESET} from '../constants/productConstant'
 const ProductListScreen = ({history,match}) => {
+  const pageNumber = match.params.pageNumber || 1
   const dispatch = useDispatch()
   const productList = useSelector(state=>state.productList)
-  const {products,loading,error} = productList
+  const {products,loading,error,page,pages} = productList
   const usersLogin = useSelector(state=>state.userLogin)
   const {userInfo} = usersLogin
   const productDelete = useSelector(state=>state.productDelete)
@@ -24,9 +26,9 @@ const ProductListScreen = ({history,match}) => {
     if(successCreate){
       history.push(`/admin/product/${createdProduct._id}/edit`)
     }else{
-      dispatch(listProducts())
+      dispatch(listProducts('',pageNumber))
     }
-    },[dispatch,history,userInfo,successDelete,successCreate,createdProduct])
+    },[dispatch,history,userInfo,successDelete,successCreate,createdProduct,pageNumber])
     const deleteHandler = (id)=>{
       console.log(id)
       if(window.confirm('Are You Sure?')){
@@ -53,6 +55,7 @@ const ProductListScreen = ({history,match}) => {
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
       {loading?<Loader/>:error?<Message variant='danger'>{error}</Message> : (
+        <>
         <Table striped bordered hover responsive className='table-sm'>
         <thead>
           <tr>
@@ -87,6 +90,8 @@ const ProductListScreen = ({history,match}) => {
           ))}  
         </tbody>
       </Table>
+      <Paginate pages={pages} page={page} isAdmin='true'/>
+      </>
       )}
     </>
   )

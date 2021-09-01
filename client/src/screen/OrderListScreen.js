@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader' 
 import { listAllOrders } from '../actions/orderActions'
-import { ORDER_GET_RESET } from '../constants/orderConstants'
 const OrderListScreen = ({history}) => {
   const dispatch = useDispatch()
   const orderList = useSelector(state=>state.orderList)
